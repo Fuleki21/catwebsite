@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { isValidEmail, requireFields } from "@/lib/validation";
+import { sendFormNotification } from "@/lib/email";
 
-// Ez a route jelenleg csak validál és visszaigazol — nincs mögötte
-// adatbázis. Amint elkészül a CMS/Supabase integráció, itt kell majd
-// beszúrni az "AdoptionApplication" rekordot és e-mail értesítést küldeni.
+// Ez a route validál, e-mail értesítést küld a szervezetnek, és visszaigazol —
+// adatbázisba egyelőre nem ír. Amint elkészül a CMS/Supabase integráció, itt
+// kell majd beszúrni az "AdoptionApplication" rekordot is.
 export async function POST(request: Request) {
   const body = await request.json();
 
@@ -24,6 +25,19 @@ export async function POST(request: Request) {
   if (!isValidEmail(body.email)) {
     return NextResponse.json({ ok: false, error: "Érvénytelen e-mail cím." }, { status: 400 });
   }
+
+  await sendFormNotification("Új örökbefogadási jelentkezés", {
+    Név: body.name,
+    "E-mail": body.email,
+    Telefon: body.phone,
+    Lakhely: body.address,
+    "Melyik cica": body.catSlug,
+    "Lakáskörülmények": body.livingSituation,
+    "Van másik állat": body.hasOtherPets ? `igen — ${body.otherPetsDetails ?? ""}` : "nem",
+    "Van gyermek": body.hasChildren ? `igen — ${body.childrenDetails ?? ""}` : "nem",
+    Motiváció: body.motivation,
+    Megjegyzés: body.message,
+  });
 
   return NextResponse.json({ ok: true, message: "A jelentkezésedet megkaptuk, hamarosan jelentkezünk." });
 }
