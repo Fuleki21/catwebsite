@@ -1,34 +1,18 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent } from "react";
 import { Field, TextInput, TextArea } from "./FormField";
 import { FormError, FormSuccess } from "./FormStatus";
 import { Button } from "@/components/ui/Button";
+import { useFormSubmit } from "@/lib/useFormSubmit";
 
 export function ContactForm() {
-  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
-  const [errorMessage, setErrorMessage] = useState("");
+  const { status, errorMessage, submit } = useFormSubmit("/api/kapcsolat");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setStatus("submitting");
-    setErrorMessage("");
     const formData = new FormData(event.currentTarget);
-    const payload = Object.fromEntries(formData.entries());
-
-    try {
-      const res = await fetch("/api/kapcsolat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
-      if (!res.ok || !data.ok) throw new Error(data.error ?? "Váratlan hiba történt.");
-      setStatus("success");
-    } catch (err) {
-      setStatus("error");
-      setErrorMessage(err instanceof Error ? err.message : "Váratlan hiba történt.");
-    }
+    await submit(Object.fromEntries(formData.entries()));
   }
 
   if (status === "success") {

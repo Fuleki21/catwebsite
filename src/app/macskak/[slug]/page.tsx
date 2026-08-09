@@ -92,7 +92,7 @@ export default function CatDetailPage({ params }: { params: { slug: string } }) 
               ))}
             </div>
 
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
               {cat.status === "gazdit_keres" ? (
                 <LinkButton href={`/orokbefogadas?cat=${cat.slug}#jelentkezes`} size="lg">
                   Érdekel ez a cica

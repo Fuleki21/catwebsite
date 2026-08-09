@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import { Field, TextInput, TextArea, CheckboxRow } from "./FormField";
 import { FormError, FormSuccess } from "./FormStatus";
 import { Button } from "@/components/ui/Button";
+import { useFormSubmit } from "@/lib/useFormSubmit";
 
 const helpTypes = [
   "Posztírás / social media",
@@ -18,8 +19,7 @@ const helpTypes = [
 ];
 
 export function VolunteerForm() {
-  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
-  const [errorMessage, setErrorMessage] = useState("");
+  const { status, errorMessage, submit } = useFormSubmit("/api/onkentes-jelentkezes");
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
 
   function toggleType(type: string) {
@@ -28,25 +28,8 @@ export function VolunteerForm() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setStatus("submitting");
-    setErrorMessage("");
-
     const formData = new FormData(event.currentTarget);
-    const payload = { ...Object.fromEntries(formData.entries()), helpType: selectedTypes.join(", ") };
-
-    try {
-      const res = await fetch("/api/onkentes-jelentkezes", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
-      if (!res.ok || !data.ok) throw new Error(data.error ?? "Váratlan hiba történt.");
-      setStatus("success");
-    } catch (err) {
-      setStatus("error");
-      setErrorMessage(err instanceof Error ? err.message : "Váratlan hiba történt.");
-    }
+    await submit({ ...Object.fromEntries(formData.entries()), helpType: selectedTypes.join(", ") });
   }
 
   if (status === "success") {

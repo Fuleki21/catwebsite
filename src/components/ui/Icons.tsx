@@ -66,14 +66,6 @@ export function IconMail(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function IconPhone(props: SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} {...props}>
-      <path d="M6.5 3.5h3l1.4 4.3-2.2 1.7a11.6 11.6 0 0 0 5.8 5.8l1.7-2.2 4.3 1.4v3a2 2 0 0 1-2.2 2C11.6 19 5 12.4 4.5 5.7a2 2 0 0 1 2-2.2Z" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
 export function IconFacebook(props: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" {...props}>

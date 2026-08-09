@@ -58,10 +58,3 @@ export interface FaqItem {
   question: string;
   answer: string;
 }
-
-export interface Testimonial {
-  quote: string;
-  name: string;
-  context: string;
-  isPlaceholder: boolean;
-}

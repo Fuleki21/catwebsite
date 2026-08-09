@@ -2,14 +2,13 @@ import type { Metadata } from "next";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Section, Eyebrow } from "@/components/ui/Container";
 import { DonationSelector } from "@/components/support/DonationSelector";
-import { helpBudgetItems, transparencyMonth } from "@/data/site";
-import { PlaceholderBadge } from "@/components/ui/Badge";
+import { helpBudgetItems } from "@/data/site";
 import { IconBowl, IconHeart, IconHome, IconSyringe } from "@/components/ui/Icons";
 import { LinkButton } from "@/components/ui/Button";
 
 export const metadata: Metadata = {
   title: "Segíts / Támogass",
-  description: "Támogasd a Cat TNR Fehérvár munkáját — már havi 1000 Ft is hatalmas segítség a mentett cicáknak.",
+  description: "Támogasd a Cat TNR Fehérvár munkáját — már egy kisebb összeg is hatalmas segítség a mentett cicáknak.",
   alternates: { canonical: "/segits" },
 };
 
@@ -20,8 +19,8 @@ export default function SupportPage() {
     <>
       <PageHeader
         eyebrow="Segíts"
-        title="Már havi 1000 Ft is hatalmas segítség."
-        description="Minden forint közvetlenül a mentett cicák ellátására megy — állatorvosi költségre, gyógyszerre, tápra, ivartalanításra."
+        title="Már egy kisebb összeg is hatalmas segítség."
+        description="Támogatásod közvetlenül a mentett cicák ellátására megy — állatorvosi költségre, gyógyszerre, tápra, ivartalanításra."
       />
 
       <Section tone="white" className="pt-0">
@@ -48,35 +47,6 @@ export default function SupportPage() {
               </div>
             );
           })}
-        </div>
-      </Section>
-
-      <Section tone="white">
-        <div className="flex items-center gap-3">
-          <Eyebrow className="mb-0">Havi átláthatósági jelentés</Eyebrow>
-          <PlaceholderBadge />
-        </div>
-        <h2 className="font-display text-3xl font-semibold text-ink-900 sm:text-4xl">
-          Mire fordítottuk a támogatásokat — {transparencyMonth.monthLabel}
-        </h2>
-        <p className="mt-3 max-w-2xl text-sm text-ink-500">{transparencyMonth.note}</p>
-
-        <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_1.3fr]">
-          <div className="rounded-xl2 border border-ink-100 bg-cream-200 p-6">
-            <p className="text-xs font-bold uppercase tracking-wide text-ink-300">Havi bevétel</p>
-            <p className="mt-2 font-display text-3xl font-semibold text-sage-600">{transparencyMonth.income}</p>
-          </div>
-          <div className="rounded-xl2 border border-ink-100 bg-cream-200 p-6">
-            <p className="mb-3 text-xs font-bold uppercase tracking-wide text-ink-300">Kiadások</p>
-            <ul className="divide-y divide-ink-100">
-              {transparencyMonth.expenses.map((expense) => (
-                <li key={expense.label} className="flex items-center justify-between py-2.5 text-sm">
-                  <span className="text-ink-600">{expense.label}</span>
-                  <span className="font-semibold text-ink-900">{expense.amount}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
       </Section>
 

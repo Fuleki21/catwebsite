@@ -1,4 +1,4 @@
-import { FaqItem, Testimonial } from "./types";
+import { FaqItem } from "./types";
 
 export const siteConfig = {
   name: "Cat TNR Fehérvár",
@@ -16,16 +16,6 @@ export const siteConfig = {
     "Közösségi kezdeményezésként működünk — nem vagyunk bejegyzett alapítvány. (Ez az állítás megerősítésre vár; frissítsd, ha a szervezeti forma változik.)",
 };
 
-// Ezek a számok demonstrációs jellegűek — a valós, aktuális statisztikákkal
-// kell frissíteni admin felületről. Ahol nincs megbízható adat, "PLACEHOLDER"
-// szerepel a szám helyén.
-export const stats = [
-  { label: "gondozott cica eddig", value: "80+", isPlaceholder: false },
-  { label: "sikeres örökbefogadás", value: "PLACEHOLDER", isPlaceholder: true },
-  { label: "aktív önkéntes", value: "PLACEHOLDER", isPlaceholder: true },
-  { label: "ivartalanított cica", value: "PLACEHOLDER", isPlaceholder: true },
-];
-
 export const helpBudgetItems = [
   { label: "Állatorvosi ellátás", note: "vizsgálat, kezelés, sürgősségi ellátás" },
   { label: "Ivartalanítás", note: "a szaporulat megelőzése, TNR-programok" },
@@ -33,43 +23,6 @@ export const helpBudgetItems = [
   { label: "Gyógyszerek", note: "antibiotikum, féreghajtó, bolhairtó" },
   { label: "Táp és alom", note: "napi ellátás a mentett cicáknak" },
   { label: "Ideiglenes befogadás", note: "szállás a gazdikeresés idejére" },
-];
-
-// PLACEHOLDER havi bontás — cseréld valós, havonta frissülő adatra.
-export const transparencyMonth = {
-  monthLabel: "PLACEHOLDER hónap",
-  income: "PLACEHOLDER Ft",
-  expenses: [
-    { label: "Állatorvosi költség", amount: "PLACEHOLDER Ft" },
-    { label: "Táp és alom", amount: "PLACEHOLDER Ft" },
-    { label: "Ivartalanítás", amount: "PLACEHOLDER Ft" },
-    { label: "Egyéb (szállítás, felszerelés)", amount: "PLACEHOLDER Ft" },
-  ],
-  note: "Ez a szekció a szervezet valós, havi átláthatósági jelentésének a helye. Kérjük, töltsd fel a tényleges bevétel/kiadás adatokkal, amint rendelkezésre állnak.",
-};
-
-export const testimonials: Testimonial[] = [
-  {
-    quote:
-      "Ez egy példa gazdi-visszajelzés helye. Cseréld le egy valós örökbefogadó szavaira, amint rendelkezésre áll.",
-    name: "PLACEHOLDER név",
-    context: "örökbefogadó szülő",
-    isPlaceholder: true,
-  },
-  {
-    quote:
-      "Ez egy példa önkéntesi visszajelzés helye. Cseréld le egy valós önkéntes szavaira, amint rendelkezésre áll.",
-    name: "PLACEHOLDER név",
-    context: "önkéntes",
-    isPlaceholder: true,
-  },
-  {
-    quote:
-      "Ez egy példa ideiglenes befogadói visszajelzés helye. Cseréld le valós történetre.",
-    name: "PLACEHOLDER név",
-    context: "ideiglenes befogadó",
-    isPlaceholder: true,
-  },
 ];
 
 export const faqItems: FaqItem[] = [
@@ -101,12 +54,12 @@ export const faqItems: FaqItem[] = [
   {
     question: "Hogyan tudok pénzzel segíteni?",
     answer:
-      "A Segíts/Támogass oldalon találsz erre lehetőséget, egyszeri vagy rendszeres formában is. Már havi 1000 Ft is számít.",
+      "A Segíts/Támogass oldalon találsz erre lehetőséget, egyszeri vagy rendszeres formában is. Már egy kisebb összeg is számít.",
   },
   {
     question: "Mire használják az adományokat?",
     answer:
-      "Elsősorban állatorvosi költségekre, gyógyszerekre, ivartalanításra, oltásokra, tápra és alomra, valamint sürgősségi mentésekre fordítjuk. A Segíts oldalon havi bontásban is bemutatjuk a felhasználást, amint az adat rendelkezésre áll.",
+      "Elsősorban állatorvosi költségekre, gyógyszerekre, ivartalanításra, oltásokra, tápra és alomra, valamint sürgősségi mentésekre fordítjuk. A Segíts oldalon részletesen is bemutatjuk, mire megy a támogatás.",
   },
   {
     question: "Mi történik, ha nem tudom tovább vállalni az ideiglenesen befogadott cicát?",

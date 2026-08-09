@@ -1,12 +1,9 @@
 import { Hero } from "@/components/home/Hero";
-import { StatsSection } from "@/components/home/StatsSection";
 import { FeaturedCats } from "@/components/home/FeaturedCats";
 import { HelpWaysSection } from "@/components/home/HelpWaysSection";
 import { StoryHighlight } from "@/components/home/StoryHighlight";
 import { WhyWeNeed } from "@/components/home/WhyWeNeed";
 import { AdoptionSteps } from "@/components/home/AdoptionSteps";
-import { Testimonials } from "@/components/home/Testimonials";
-import { FinalCta } from "@/components/home/FinalCta";
 import { siteConfig } from "@/data/site";
 
 export default function HomePage() {
@@ -27,14 +24,11 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Hero />
-      <StatsSection />
       <FeaturedCats />
       <HelpWaysSection />
       <StoryHighlight />
       <WhyWeNeed />
       <AdoptionSteps />
-      <Testimonials />
-      <FinalCta />
     </>
   );
 }

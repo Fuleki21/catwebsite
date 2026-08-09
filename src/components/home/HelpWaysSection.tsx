@@ -6,7 +6,7 @@ const ways = [
   {
     icon: IconHeart,
     title: "Támogass anyagilag",
-    description: "Már havi 1000 Ft is fedez egy oltást vagy egy hét tápot egy mentett cicának.",
+    description: "Már egy kisebb rendszeres összeg is fedez egy oltást vagy egy hét tápot egy mentett cicának.",
     href: "/segits",
     cta: "Támogatok",
   },

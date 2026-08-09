@@ -83,7 +83,7 @@ export default function StoryDetailPage({ params }: { params: { slug: string } }
             </div>
           )}
 
-          <div className="mt-10 flex flex-wrap gap-3 border-t border-ink-100 pt-8">
+          <div className="mt-10 flex flex-wrap justify-center gap-3 border-t border-ink-100 pt-8">
             <LinkButton href="/mentesek" variant="outline">
               Több mentési történet
             </LinkButton>
