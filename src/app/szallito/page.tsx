@@ -1,0 +1,52 @@
+import type { Metadata } from "next";
+import { PageHeader } from "@/components/ui/PageHeader";
+import { Section, Eyebrow } from "@/components/ui/Container";
+import { TransportForm } from "@/components/forms/TransportForm";
+import { IconCar, IconHome, IconPaw, IconSyringe } from "@/components/ui/Icons";
+
+export const metadata: Metadata = {
+  title: "Szállító leszek",
+  description: "Van autód és néha 1-2 órád? Segíts a cicák eljuttatásában állatorvoshoz, ideiglenes helyre vagy új gazdihoz.",
+  alternates: { canonical: "/szallito" },
+};
+
+const useCases = [
+  { icon: IconSyringe, title: "Állatorvoshoz", description: "Kontrollra, oltásra vagy sürgősségi ellátásra viszel egy cicát." },
+  { icon: IconHome, title: "Ideiglenes helyre", description: "Egy frissen mentett cica eljuttatása egy befogadóhoz." },
+  { icon: IconPaw, title: "Új gazdihoz", description: "Az örökbefogadás utolsó lépése — hazajuttatod a cicát." },
+  { icon: IconCar, title: "Mentéshez", description: "Segítesz kijutni egy helyszínre egy bejelentett mentésnél." },
+];
+
+export default function TransportPage() {
+  return (
+    <>
+      <PageHeader
+        eyebrow="Csatlakozz"
+        title="Van autód és néha 1-2 órád?"
+        description="A szállítás sokszor a mentés legkritikusabb láncszeme. Ha van egy kis szabad időd és autód, rengeteget segíthetsz."
+      />
+
+      <Section tone="white" className="pt-0">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {useCases.map((item) => (
+            <div key={item.title} className="flex flex-col gap-3 rounded-xl2 border border-ink-100 bg-cream-200 p-6">
+              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-marmalade-100 text-marmalade-600">
+                <item.icon className="h-5 w-5" />
+              </span>
+              <p className="font-display font-semibold text-ink-900">{item.title}</p>
+              <p className="text-sm text-ink-500">{item.description}</p>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      <Section tone="cream" id="jelentkezes">
+        <Eyebrow>Jelentkezés</Eyebrow>
+        <h2 className="font-display text-3xl font-semibold text-ink-900 sm:text-4xl">Szállító leszek</h2>
+        <div className="mt-8 max-w-2xl rounded-xl2 border border-ink-100 bg-white p-6 shadow-card sm:p-8">
+          <TransportForm />
+        </div>
+      </Section>
+    </>
+  );
+}

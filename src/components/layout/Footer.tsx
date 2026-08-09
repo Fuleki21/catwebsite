@@ -1,0 +1,94 @@
+import Link from "next/link";
+import { siteConfig } from "@/data/site";
+import { IconFacebook, IconInstagram, IconMail, IconPaw } from "@/components/ui/Icons";
+import { primaryNavLinks, joinDropdownLinks, secondaryNavLinks } from "./nav-links";
+
+export function Footer() {
+  return (
+    <footer className="border-t border-ink-800 bg-ink-900 pb-28 pt-16 text-cream-100 lg:pb-16">
+      <div className="container-page">
+        <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
+          <div>
+            <Link href="/" className="focus-ring flex items-center gap-2 rounded-md">
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-marmalade-500 text-cream-100">
+                <IconPaw className="h-5 w-5" />
+              </span>
+              <span className="font-display text-lg font-semibold">Cat TNR Fehérvár</span>
+            </Link>
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-cream-100/70">{siteConfig.description}</p>
+            <div className="mt-5 flex gap-3">
+              <a
+                href={siteConfig.facebookUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="focus-ring flex h-10 w-10 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-marmalade-500"
+                aria-label="Facebook"
+              >
+                <IconFacebook className="h-4 w-4" />
+              </a>
+              <a
+                href={siteConfig.instagramUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="focus-ring flex h-10 w-10 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-marmalade-500"
+                aria-label="Instagram"
+              >
+                <IconInstagram className="h-4 w-4" />
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <p className="mb-4 text-xs font-bold uppercase tracking-widest text-cream-100/50">Cicák</p>
+            <ul className="space-y-2.5 text-sm">
+              {primaryNavLinks.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="focus-ring text-cream-100/80 transition-colors hover:text-marmalade-300">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <p className="mb-4 text-xs font-bold uppercase tracking-widest text-cream-100/50">Csatlakozz</p>
+            <ul className="space-y-2.5 text-sm">
+              {joinDropdownLinks.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="focus-ring text-cream-100/80 transition-colors hover:text-marmalade-300">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <p className="mb-4 text-xs font-bold uppercase tracking-widest text-cream-100/50">Elérhetőség</p>
+            <ul className="space-y-2.5 text-sm">
+              <li className="flex items-center gap-2 text-cream-100/80">
+                <IconMail className="h-4 w-4 shrink-0" />
+                <a href={`mailto:${siteConfig.email}`} className="focus-ring hover:text-marmalade-300">
+                  {siteConfig.email}
+                </a>
+              </li>
+              {secondaryNavLinks.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="focus-ring text-cream-100/80 transition-colors hover:text-marmalade-300">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-14 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-cream-100/50 sm:flex-row sm:items-center sm:justify-between">
+          <p>&copy; {new Date().getFullYear()} Cat TNR Fehérvár. Minden jog fenntartva.</p>
+          <p className="max-w-xl">{siteConfig.legalStatusNote}</p>
+        </div>
+      </div>
+    </footer>
+  );
+}
