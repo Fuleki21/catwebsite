@@ -3,8 +3,9 @@ import { LinkButton } from "@/components/ui/Button";
 import { CatCard } from "@/components/cats/CatCard";
 import { getFeaturedCats } from "@/data/cats";
 
-export function FeaturedCats() {
-  const cats = getFeaturedCats().slice(0, 6);
+export async function FeaturedCats() {
+  const cats = (await getFeaturedCats()).slice(0, 6);
+  if (cats.length === 0) return null;
   return (
     <Section tone="cream">
       <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">

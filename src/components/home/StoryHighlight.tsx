@@ -1,12 +1,12 @@
 import { Section, Eyebrow } from "@/components/ui/Container";
 import { LinkButton } from "@/components/ui/Button";
-import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
+import { ImageTile } from "@/components/ui/PhotoTile";
 import { getFeaturedStory } from "@/data/stories";
 
 const timeline = ["Előtte", "Mentés", "Gyógyulás", "Új otthon"];
 
-export function StoryHighlight() {
-  const story = getFeaturedStory();
+export async function StoryHighlight() {
+  const story = await getFeaturedStory();
   if (!story) return null;
 
   return (
@@ -29,10 +29,14 @@ export function StoryHighlight() {
           </LinkButton>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <PlaceholderImage seed={`${story.slug}-a`} aspect="aspect-[4/5]" className="col-span-2 sm:col-span-1" />
+          <ImageTile
+            src={story.images[0] ?? `${story.slug}-a`}
+            aspect="aspect-[4/5]"
+            className="col-span-2 sm:col-span-1"
+          />
           <div className="grid gap-4">
-            <PlaceholderImage seed={`${story.slug}-b`} aspect="aspect-square" />
-            <PlaceholderImage seed={`${story.slug}-c`} aspect="aspect-square" />
+            <ImageTile src={story.images[1] ?? `${story.slug}-b`} aspect="aspect-square" />
+            <ImageTile src={story.images[2] ?? `${story.slug}-c`} aspect="aspect-square" />
           </div>
         </div>
       </div>

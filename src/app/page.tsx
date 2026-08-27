@@ -6,6 +6,8 @@ import { WhyWeNeed } from "@/components/home/WhyWeNeed";
 import { AdoptionSteps } from "@/components/home/AdoptionSteps";
 import { siteConfig } from "@/data/site";
 
+export const revalidate = 60;
+
 export default function HomePage() {
   const jsonLd = {
     "@context": "https://schema.org",

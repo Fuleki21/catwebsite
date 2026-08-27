@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Cat } from "@/data/types";
-import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
+import { CoverTile } from "@/components/ui/PhotoTile";
 import { StatusBadge } from "@/components/ui/Badge";
 import { IconArrowRight } from "@/components/ui/Icons";
 
@@ -12,7 +12,7 @@ export function CatCard({ cat }: { cat: Cat }) {
     >
       <div className="relative overflow-hidden">
         <div className="transition-transform duration-500 group-hover:scale-105">
-          <PlaceholderImage seed={cat.slug} aspect="aspect-[4/3]" label={`${cat.name} fotója`} />
+          <CoverTile images={cat.images} seed={cat.slug} aspect="aspect-[4/3]" label={`${cat.name} fotója`} />
         </div>
         <div className="absolute left-3 top-3">
           <StatusBadge status={cat.status} />

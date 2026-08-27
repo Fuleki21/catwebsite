@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Container";
 import { StoryCard } from "@/components/stories/StoryCard";
-import { stories } from "@/data/stories";
+import { getStories } from "@/data/stories";
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Mentéseink és történeteink",
@@ -10,7 +12,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/mentesek" },
 };
 
-export default function StoriesPage() {
+export default async function StoriesPage() {
+  const stories = await getStories();
   return (
     <>
       <PageHeader

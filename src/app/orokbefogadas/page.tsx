@@ -3,8 +3,10 @@ import { PageHeader } from "@/components/ui/PageHeader";
 import { Section, Eyebrow } from "@/components/ui/Container";
 import { AdoptionForm } from "@/components/forms/AdoptionForm";
 import { Accordion } from "@/components/ui/Accordion";
-import { cats } from "@/data/cats";
+import { getAvailableCats } from "@/data/cats";
 import { faqItems } from "@/data/site";
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Örökbefogadás menete",
@@ -41,7 +43,8 @@ const adoptionFaq = faqItems.filter((item) =>
   )
 );
 
-export default function AdoptionPage({ searchParams }: { searchParams: { cat?: string } }) {
+export default async function AdoptionPage({ searchParams }: { searchParams: { cat?: string } }) {
+  const availableCats = await getAvailableCats();
   return (
     <>
       <PageHeader
@@ -72,7 +75,7 @@ export default function AdoptionPage({ searchParams }: { searchParams: { cat?: s
           visszajelezni.
         </p>
         <div className="mt-8 max-w-2xl rounded-xl2 border border-ink-100 bg-white p-6 shadow-card sm:p-8">
-          <AdoptionForm cats={cats.filter((c) => c.status === "gazdit_keres")} preselectedSlug={searchParams.cat} />
+          <AdoptionForm cats={availableCats} preselectedSlug={searchParams.cat} />
         </div>
       </Section>
 

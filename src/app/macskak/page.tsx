@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Container";
 import { CatCatalog } from "@/components/cats/CatCatalog";
-import { cats } from "@/data/cats";
+import { getCats } from "@/data/cats";
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Gazdira váró cicák",
@@ -11,7 +13,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/macskak" },
 };
 
-export default function CatsPage() {
+export default async function CatsPage() {
+  const cats = await getCats();
   return (
     <>
       <PageHeader

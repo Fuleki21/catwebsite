@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { RescueStory } from "@/data/types";
-import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
+import { CoverTile } from "@/components/ui/PhotoTile";
 import { Badge } from "@/components/ui/Badge";
 import { formatDate } from "@/lib/utils";
 import { IconArrowRight } from "@/components/ui/Icons";
@@ -20,7 +20,7 @@ export function StoryCard({ story }: { story: RescueStory }) {
     >
       <div className="overflow-hidden">
         <div className="transition-transform duration-500 group-hover:scale-105">
-          <PlaceholderImage seed={story.slug} aspect="aspect-[16/10]" label={story.title} />
+          <CoverTile images={story.images} seed={story.slug} aspect="aspect-[16/10]" label={story.title} />
         </div>
       </div>
       <div className="flex flex-1 flex-col gap-3 p-6">

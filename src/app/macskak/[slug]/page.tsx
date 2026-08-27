@@ -1,21 +1,25 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { cats, getCatBySlug } from "@/data/cats";
-import { Container, Section } from "@/components/ui/Container";
-import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
+import { getCats, getCatBySlug } from "@/data/cats";
+import { Section } from "@/components/ui/Container";
+import { ImageTile } from "@/components/ui/PhotoTile";
 import { StatusBadge, Badge } from "@/components/ui/Badge";
 import { LinkButton } from "@/components/ui/Button";
 import { IconCheck, IconX } from "@/components/ui/Icons";
 import { CatCard } from "@/components/cats/CatCard";
 import { formatDate } from "@/lib/utils";
 
-export function generateStaticParams() {
+export const revalidate = 60;
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  const cats = await getCats();
   return cats.map((cat) => ({ slug: cat.slug }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const cat = getCatBySlug(params.slug);
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const cat = await getCatBySlug(params.slug);
   if (!cat) return {};
   return {
     title: `${cat.name} — gazdit keres`,
@@ -44,11 +48,12 @@ function TriBoolRow({ label, value }: { label: string; value: boolean | "ismeret
   );
 }
 
-export default function CatDetailPage({ params }: { params: { slug: string } }) {
-  const cat = getCatBySlug(params.slug);
+export default async function CatDetailPage({ params }: { params: { slug: string } }) {
+  const cat = await getCatBySlug(params.slug);
   if (!cat) notFound();
 
-  const similar = cats.filter((c) => c.slug !== cat.slug && c.status === "gazdit_keres").slice(0, 3);
+  const allCats = await getCats();
+  const similar = allCats.filter((c) => c.slug !== cat.slug && c.status === "gazdit_keres").slice(0, 3);
 
   return (
     <>
@@ -64,11 +69,19 @@ export default function CatDetailPage({ params }: { params: { slug: string } }) 
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
           <div>
             <div className="grid grid-cols-2 gap-3">
-              <PlaceholderImage seed={cat.slug} aspect="aspect-[4/5]" className="col-span-2 sm:col-span-1" label={`${cat.name} fő fotója`} />
+              <ImageTile
+                src={cat.images[0] ?? cat.slug}
+                aspect="aspect-[4/5]"
+                className="col-span-2 sm:col-span-1"
+                label={`${cat.name} fő fotója`}
+                priority
+              />
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-1">
-                {(cat.images.length > 1 ? cat.images.slice(1) : [`${cat.slug}-alt-1`, `${cat.slug}-alt-2`]).map((img) => (
-                  <PlaceholderImage key={img} seed={img} aspect="aspect-square" />
-                ))}
+                {(cat.images.length > 1 ? cat.images.slice(1) : [`${cat.slug}-alt-1`, `${cat.slug}-alt-2`]).map(
+                  (img, i) => (
+                    <ImageTile key={img + i} src={img} aspect="aspect-square" />
+                  )
+                )}
               </div>
             </div>
           </div>

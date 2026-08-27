@@ -51,6 +51,24 @@ Minden űrlap beküldésekor e-mail értesítést kap a szervezet a Resend szolg
 
 A `.env.local` soha nem kerül git-be (a `.gitignore` kizárja) — a titkos kulcsot csak a saját géped ismeri.
 
+## Admin felület (Supabase)
+
+A cicák és mentési történetek mostantól a Supabase adatbázisból töltődnek be, és egy jelszóval védett `/admin` felületről szerkeszthetők — fotóstól. Amit itt elmentesz, azonnal megjelenik a nyilvános oldalon, nem kell újratelepíteni semmit.
+
+### Első beállítás
+
+1. **Séma létrehozása.** Nyisd meg a Supabase projektet → SQL Editor → New query, illeszd be a `supabase/schema.sql` fájl teljes tartalmát, és futtasd le. Ez létrehozza a `cats` és `stories` táblákat, a `photos` tárhely-bucketet, és feltölti a jelenlegi minta-adatokat.
+2. **Env változók.** A `.env.local` fájlban töltsd ki:
+   - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` — Supabase dashboard → Project Settings → API.
+   - `SUPABASE_SERVICE_ROLE_KEY` — ugyanott, "service_role" kulcs. **Titkos, sose oszd meg.**
+   - `ADMIN_PASSWORD` — ezt a jelszót kell megadni a `/admin` oldalon a belépéshez. Bármikor átírható.
+3. `npm install` (telepíti a `@supabase/supabase-js` csomagot is), majd `npm run dev`.
+4. Nyisd meg: `http://localhost:3000/admin` — jelentkezz be az `ADMIN_PASSWORD` értékével.
+
+### Élesben (Vercel)
+
+Ugyanezt a négy env változót (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `ADMIN_PASSWORD`) fel kell venni a Vercel projekt Environment Variables oldalán (Production környezetre), majd egy új deploy szükséges, hogy érvénybe lépjenek — ugyanúgy, ahogy a Resend kulcsoknál történt.
+
 ## Szerkezet
 
 ```
@@ -71,7 +89,5 @@ src/
 ## Következő lépések (fejlesztői csapatnak)
 
 1. Valós szervezeti adatok pótlása (`src/data/site.ts`).
-2. CMS/adatbázis bekötése (pl. Supabase) — a `Cat`/`RescueStory` típusok és az API route-ok erre vannak előkészítve.
-3. Valós cicafotók feltöltése és a `PlaceholderImage` lecserélése `next/image`-re.
-4. Fizetési szolgáltató integrálása a Segíts oldalon (`DonationSelector` komponens jelzi a helyét).
-5. Admin felület kialakítása a `Cat`, `RescueStory`, `VolunteerApplication`, `AdoptionApplication` entitásokhoz.
+2. Fizetési szolgáltató integrálása a Segíts oldalon (`DonationSelector` komponens jelzi a helyét).
+3. Jelentkezési űrlapok (örökbefogadás, önkéntes stb.) adatbázisba mentése — jelenleg csak e-mail értesítés megy Resenden keresztül, adatbázisba egyelőre nem írnak.

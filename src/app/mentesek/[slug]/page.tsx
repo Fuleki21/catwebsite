@@ -1,20 +1,24 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { stories, getStoryBySlug } from "@/data/stories";
+import { getStories, getStoryBySlug } from "@/data/stories";
 import { getCatBySlug } from "@/data/cats";
 import { Section, Container } from "@/components/ui/Container";
-import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
+import { ImageTile } from "@/components/ui/PhotoTile";
 import { Badge } from "@/components/ui/Badge";
 import { LinkButton } from "@/components/ui/Button";
 import { formatDate } from "@/lib/utils";
 
-export function generateStaticParams() {
+export const revalidate = 60;
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  const stories = await getStories();
   return stories.map((story) => ({ slug: story.slug }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const story = getStoryBySlug(params.slug);
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const story = await getStoryBySlug(params.slug);
   if (!story) return {};
   return {
     title: story.title,
@@ -30,11 +34,12 @@ const stageLabels: Record<string, string> = {
   uj_otthon: "Új otthon",
 };
 
-export default function StoryDetailPage({ params }: { params: { slug: string } }) {
-  const story = getStoryBySlug(params.slug);
+export default async function StoryDetailPage({ params }: { params: { slug: string } }) {
+  const story = await getStoryBySlug(params.slug);
   if (!story) notFound();
 
-  const relatedCat = story.catSlug ? getCatBySlug(story.catSlug) : undefined;
+  const relatedCat = story.catSlug ? await getCatBySlug(story.catSlug) : undefined;
+  const images = story.images.length > 0 ? story.images : [story.slug];
 
   return (
     <>
@@ -61,8 +66,8 @@ export default function StoryDetailPage({ params }: { params: { slug: string } }
       <Section tone="white" className="pt-0">
         <Container className="max-w-3xl">
           <div className="grid grid-cols-3 gap-3">
-            {story.images.map((img) => (
-              <PlaceholderImage key={img} seed={img} aspect="aspect-square" />
+            {images.map((img, i) => (
+              <ImageTile key={img + i} src={img} aspect="aspect-square" />
             ))}
           </div>
           <div className="prose prose-ink mt-10 flex flex-col gap-5 text-base leading-relaxed text-ink-700">

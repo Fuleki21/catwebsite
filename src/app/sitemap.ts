@@ -1,9 +1,11 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/data/site";
-import { cats } from "@/data/cats";
-import { stories } from "@/data/stories";
+import { getCats } from "@/data/cats";
+import { getStories } from "@/data/stories";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const [cats, stories] = await Promise.all([getCats(), getStories()]);
+
   const staticRoutes = [
     "",
     "/macskak",

@@ -1,235 +1,103 @@
+import { supabase } from "@/lib/supabase";
 import { Cat } from "./types";
 
-// MINTA ADAT — ezek a cicaprofilok demonstrációs célt szolgálnak, hogy a
-// katalógus és a szűrők működését be lehessen mutatni. Éles indításkor
-// ezeket a szervezet valós, gazdit kereső cicáira kell cserélni (admin
-// felületről, amint elkészül).
-export const cats: Cat[] = [
-  {
-    id: "1",
-    slug: "morzsa",
-    name: "Morzsa",
-    ageLabel: "8 hónapos",
-    ageMonthsApprox: 8,
-    gender: "nőstény",
-    neutered: true,
-    vaccinated: true,
-    chipped: true,
-    indoorOnly: true,
-    goodWithChildren: true,
-    goodWithCats: true,
-    goodWithDogs: "ismeretlen",
-    temperament: ["játékos", "dorombolós", "ölbemászó"],
-    status: "gazdit_keres",
-    featured: true,
-    shortDescription: "Kíváncsi, játékos kis cirmos, aki imád ölbe bújni esténként.",
-    story:
-      "Morzsát pár hónapos korában találtuk egy fehérvári udvarban, testvéreivel együtt. A többiek már gazdira leltek, Morzsa még minket vár.",
-    health: "Egészséges, rendszeres állatorvosi ellenőrzésen átesett.",
-    seekingHome: "Nyugodt, lakásbeli otthont keresünk neki, ahol van ideje játékra és bújásra egyaránt.",
-    images: ["cat-morzsa-1", "cat-morzsa-2"],
-    arrivalDate: "2026-03-12",
-  },
-  {
-    id: "2",
-    slug: "cirmi",
-    name: "Cirmi",
-    ageLabel: "2 éves",
-    ageMonthsApprox: 24,
-    gender: "kandúr",
-    neutered: true,
-    vaccinated: true,
-    chipped: true,
-    indoorOnly: false,
-    goodWithChildren: true,
-    goodWithCats: true,
-    goodWithDogs: true,
-    temperament: ["nyugodt", "önálló"],
-    status: "gazdit_keres",
-    featured: true,
-    shortDescription: "Higgadt, barátságos fickó, aki minden élőlénnyel megtalálja a hangot.",
-    story:
-      "Cirmit egy TNR-akció során fogtuk be ivartalanításra, de kiderült, hogy nem is annyira vad — inkább csak magára hagyott házi cica volt.",
-    health: "Egészséges. Enyhén érzékeny gyomra van, speciális tápot igényel.",
-    seekingHome: "Kertes házba is költözhetne, kijárós életmódhoz szokott, de lakásban is jól érzi magát.",
-    images: ["cat-cirmi-1", "cat-cirmi-2"],
-    arrivalDate: "2025-11-02",
-  },
-  {
-    id: "3",
-    slug: "tappancs",
-    name: "Tappancs",
-    ageLabel: "4 hónapos",
-    ageMonthsApprox: 4,
-    gender: "kandúr",
-    neutered: false,
-    vaccinated: true,
-    chipped: false,
-    indoorOnly: true,
-    goodWithChildren: true,
-    goodWithCats: true,
-    goodWithDogs: "ismeretlen",
-    temperament: ["játékos", "bátor"],
-    status: "gazdit_keres",
-    featured: true,
-    shortDescription: "Aprócska energiabomba, akinek sosem áll meg a farka.",
-    story: "Tappancsot és két testvérét egy pincéből mentettük ki, ahol az anyjuk hagyta őket néhány hetesen.",
-    health: "Ivartalanítás előtt áll, ideiglenes befogadónál nő fel örökbefogadásig.",
-    seekingHome: "Türelmes gazdit keresünk, aki elviseli egy kiscica energiáit — vagy inkább kettőt fogad örökbe egyszerre.",
-    images: ["cat-tappancs-1"],
-    arrivalDate: "2026-06-20",
-  },
-  {
-    id: "4",
-    slug: "luna",
-    name: "Luna",
-    ageLabel: "5 éves",
-    ageMonthsApprox: 60,
-    gender: "nőstény",
-    neutered: true,
-    vaccinated: true,
-    chipped: true,
-    indoorOnly: true,
-    goodWithChildren: false,
-    goodWithCats: false,
-    goodWithDogs: false,
-    temperament: ["félénk", "nyugodt"],
-    status: "gazdit_keres",
-    featured: false,
-    shortDescription: "Csendes, visszahúzódó hölgy, akinek türelmes, egyedülálló otthon dukál.",
-    story:
-      "Luna egy idős gazdija elvesztése után került hozzánk. Nehezen nyílik meg, de akiben megbízik, azt élete végéig szereti.",
-    health: "Egészséges, éves kontrollra jár. Kissé túlsúlyos, diétás tápra van szüksége.",
-    seekingHome: "Egyedüli cicaként, nyugodt háztartásba illik, ahol van ideje lassan megismerkedni.",
-    images: ["cat-luna-1"],
-    arrivalDate: "2025-09-15",
-  },
-  {
-    id: "5",
-    slug: "gesztenye",
-    name: "Gesztenye",
-    ageLabel: "1 éves",
-    ageMonthsApprox: 12,
-    gender: "kandúr",
-    neutered: true,
-    vaccinated: true,
-    chipped: true,
-    indoorOnly: false,
-    goodWithChildren: true,
-    goodWithCats: true,
-    goodWithDogs: true,
-    temperament: ["dorombolós", "ölbemászó", "nyugodt"],
-    status: "foglalt",
-    featured: false,
-    shortDescription: "Mindenki kedvence — most épp ismerkedik leendő családjával.",
-    story: "Gesztenyét kölyökként mentettük az útról, azóta sokat fejlődött. Hamarosan hazaköltözik.",
-    health: "Egészséges, minden oltása megvan.",
-    seekingHome: "Már folyamatban van egy jelentkezés, de tartalék érdeklődőket is szívesen fogadunk.",
-    images: ["cat-gesztenye-1"],
-    arrivalDate: "2025-08-01",
-  },
-  {
-    id: "6",
-    slug: "picur",
-    name: "Picur",
-    ageLabel: "10 hónapos",
-    ageMonthsApprox: 10,
-    gender: "nőstény",
-    neutered: true,
-    vaccinated: true,
-    chipped: true,
-    indoorOnly: true,
-    goodWithChildren: true,
-    goodWithCats: true,
-    goodWithDogs: "ismeretlen",
-    temperament: ["játékos", "bátor", "dorombolós"],
-    status: "gazdit_keres",
-    featured: true,
-    shortDescription: "Apró termetű, de annál bátrabb — imádja felfedezni a lakást.",
-    story: "Picur és testvérei egy garázsban születtek. A testvérei már gazdisak, ő még minket vár.",
-    health: "Egészséges, ivartalanítva.",
-    seekingHome: "Egy másik, barátságos cica mellé is szívesen költözne, de egyedüliként is boldogul.",
-    images: ["cat-picur-1"],
-    arrivalDate: "2026-01-18",
-  },
-  {
-    id: "7",
-    slug: "felho",
-    name: "Felhő",
-    ageLabel: "3 éves",
-    ageMonthsApprox: 36,
-    gender: "nőstény",
-    neutered: true,
-    vaccinated: true,
-    chipped: true,
-    indoorOnly: true,
-    goodWithChildren: true,
-    goodWithCats: false,
-    goodWithDogs: false,
-    temperament: ["nyugodt", "önálló", "dorombolós"],
-    status: "gazdit_keres",
-    featured: false,
-    shortDescription: "Szürke bundájú szépség, aki kizárólagos figyelemre vágyik.",
-    story: "Felhőt egy költözés után hagyták az utcán. Azóta nálunk vár egy család, aki csak neki szurkol.",
-    health: "Egészséges, ivartalanítva, oltva.",
-    seekingHome: "Egyedüli cicaként keres otthont, ahol ő az egyetlen kedvenc.",
-    images: ["cat-felho-1"],
-    arrivalDate: "2025-12-05",
-  },
-  {
-    id: "8",
-    slug: "borsika",
-    name: "Borsika",
-    ageLabel: "6 hónapos",
-    ageMonthsApprox: 6,
-    gender: "nőstény",
-    neutered: false,
-    vaccinated: true,
-    chipped: false,
-    indoorOnly: true,
-    goodWithChildren: true,
-    goodWithCats: true,
-    goodWithDogs: "ismeretlen",
-    temperament: ["játékos", "bátor", "ölbemászó"],
-    status: "gazdit_keres",
-    featured: false,
-    shortDescription: "Kis csibész, aki azonnal beköltözik a szívekbe — és az ölbe.",
-    story: "Borsikát anyjával együtt mentettük egy elhagyatott telekről. Azóta virul.",
-    health: "Ivartalanítás előtt áll, oltásai folyamatban.",
-    seekingHome: "Játékos otthonba, ahol lesz ideje kibontakozni.",
-    images: ["cat-borsika-1"],
-    arrivalDate: "2026-05-02",
-  },
-  {
-    id: "9",
-    slug: "samu",
-    name: "Samu",
-    ageLabel: "7 éves",
-    ageMonthsApprox: 84,
-    gender: "kandúr",
-    neutered: true,
-    vaccinated: true,
-    chipped: true,
-    indoorOnly: true,
-    goodWithChildren: true,
-    goodWithCats: true,
-    goodWithDogs: true,
-    temperament: ["nyugodt", "dorombolós"],
-    status: "gazdit_keres",
-    featured: false,
-    shortDescription: "Idősebb úriember, aki már csak egy nyugodt kanapét és egy kedves kezet kér.",
-    story: "Samu gazdája idősotthonba költözött, és nem vihette magával. Azóta ideiglenes befogadónál él.",
-    health: "Krónikus, de jól kezelt vesebetegsége van, rendszeres kontroll mellett.",
-    seekingHome: "Nyugodt, türelmes otthonba, ahol megbecsülik az időskort is.",
-    images: ["cat-samu-1"],
-    arrivalDate: "2025-07-22",
-  },
-];
+// A Supabase "cats" tábláját (snake_case oszlopok) a Cat típusra (camelCase)
+// képezzük le. Az admin felület ugyanebbe a táblába ír — így minden oldal,
+// ami innen olvas, automatikusan látja a legfrissebb adatokat.
 
-export function getFeaturedCats() {
+type CatRow = {
+  id: string;
+  slug: string;
+  name: string;
+  age_label: string;
+  age_months_approx: number;
+  gender: Cat["gender"];
+  neutered: boolean;
+  vaccinated: boolean;
+  chipped: boolean;
+  indoor_only: boolean;
+  good_with_children: boolean | null;
+  good_with_cats: boolean | null;
+  good_with_dogs: boolean | null;
+  temperament: Cat["temperament"] | null;
+  status: Cat["status"];
+  featured: boolean;
+  short_description: string;
+  story: string;
+  health: string;
+  seeking_home: string;
+  images: string[] | null;
+  arrival_date: string;
+};
+
+function mapRow(row: CatRow): Cat {
+  return {
+    id: row.id,
+    slug: row.slug,
+    name: row.name,
+    ageLabel: row.age_label,
+    ageMonthsApprox: row.age_months_approx,
+    gender: row.gender,
+    neutered: row.neutered,
+    vaccinated: row.vaccinated,
+    chipped: row.chipped,
+    indoorOnly: row.indoor_only,
+    goodWithChildren: row.good_with_children ?? "ismeretlen",
+    goodWithCats: row.good_with_cats ?? "ismeretlen",
+    goodWithDogs: row.good_with_dogs ?? "ismeretlen",
+    temperament: row.temperament ?? [],
+    status: row.status,
+    featured: row.featured,
+    shortDescription: row.short_description,
+    story: row.story,
+    health: row.health,
+    seekingHome: row.seeking_home,
+    images: row.images ?? [],
+    arrivalDate: row.arrival_date,
+  };
+}
+
+/** Az összes cica, legfrissebb érkezés szerint rendezve. */
+export async function getCats(): Promise<Cat[]> {
+  const { data, error } = await supabase
+    .from("cats")
+    .select("*")
+    .order("arrival_date", { ascending: false });
+
+  if (error) {
+    console.error("[getCats] Supabase hiba:", error.message);
+    return [];
+  }
+  return (data ?? []).map(mapRow);
+}
+
+/** Kiemelt, gazdit kereső cicák (főoldalra). */
+export async function getFeaturedCats(): Promise<Cat[]> {
+  const cats = await getCats();
   return cats.filter((cat) => cat.featured && cat.status === "gazdit_keres");
 }
 
-export function getCatBySlug(slug: string) {
-  return cats.find((cat) => cat.slug === slug);
+/** Minden gazdit kereső (még nem foglalt/örökbefogadott) cica. */
+export async function getAvailableCats(): Promise<Cat[]> {
+  const cats = await getCats();
+  return cats.filter((cat) => cat.status === "gazdit_keres");
+}
+
+export async function getCatBySlug(slug: string): Promise<Cat | undefined> {
+  const { data, error } = await supabase.from("cats").select("*").eq("slug", slug).maybeSingle();
+  if (error) {
+    console.error("[getCatBySlug] Supabase hiba:", error.message);
+    return undefined;
+  }
+  return data ? mapRow(data) : undefined;
+}
+
+/** Admin felülethez: egyetlen cica lekérése id alapján (szerkesztéshez). */
+export async function getCatById(id: string): Promise<Cat | undefined> {
+  const { data, error } = await supabase.from("cats").select("*").eq("id", id).maybeSingle();
+  if (error) {
+    console.error("[getCatById] Supabase hiba:", error.message);
+    return undefined;
+  }
+  return data ? mapRow(data) : undefined;
 }
