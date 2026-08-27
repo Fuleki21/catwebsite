@@ -1,47 +1,33 @@
 import { Section, Eyebrow } from "@/components/ui/Container";
 import { LinkButton } from "@/components/ui/Button";
 import { IconCar, IconHeart, IconHome, IconUsers } from "@/components/ui/Icons";
+import { getContentBlocks, block } from "@/data/content";
 
-const ways = [
-  {
-    icon: IconHeart,
-    title: "Támogass anyagilag",
-    description: "Már egy kisebb rendszeres összeg is fedez egy oltást vagy egy hét tápot egy mentett cicának.",
-    href: "/segits",
-    cta: "Támogatok",
-  },
-  {
-    icon: IconHome,
-    title: "Legyél ideiglenes befogadó",
-    description: "Adj otthont egy cicának a gyógyulás vagy a gazdikeresés idejére.",
-    href: "/ideiglenes-befogado",
-    cta: "Befogadó leszek",
-  },
-  {
-    icon: IconCar,
-    title: "Segíts szállítással",
-    description: "Vidd el egy cicát az állatorvoshoz, ideiglenes helyre vagy új gazdijához.",
-    href: "/szallito",
-    cta: "Szállító leszek",
-  },
-  {
-    icon: IconUsers,
-    title: "Legyél önkéntes",
-    description: "Posztírás, fotózás, gazdikeresés, események — sokféleképp segíthetsz.",
-    href: "/onkentes",
-    cta: "Önkéntes leszek",
-  },
+const wayMeta = [
+  { icon: IconHeart, href: "/segits", cta: "Támogatok", defaultTitle: "Támogass anyagilag", defaultDescription: "Már egy kisebb rendszeres összeg is fedez egy oltást vagy egy hét tápot egy mentett cicának." },
+  { icon: IconHome, href: "/ideiglenes-befogado", cta: "Befogadó leszek", defaultTitle: "Legyél ideiglenes befogadó", defaultDescription: "Adj otthont egy cicának a gyógyulás vagy a gazdikeresés idejére." },
+  { icon: IconCar, href: "/szallito", cta: "Szállító leszek", defaultTitle: "Segíts szállítással", defaultDescription: "Vidd el egy cicát az állatorvoshoz, ideiglenes helyre vagy új gazdijához." },
+  { icon: IconUsers, href: "/onkentes", cta: "Önkéntes leszek", defaultTitle: "Legyél önkéntes", defaultDescription: "Posztírás, fotózás, gazdikeresés, események — sokféleképp segíthetsz." },
 ];
 
-export function HelpWaysSection() {
+export async function HelpWaysSection() {
+  const blocks = await getContentBlocks();
+  const eyebrow = block(blocks, "home.help_ways.eyebrow", "Csatlakozz");
+  const title = block(blocks, "home.help_ways.title", "Így segíthetsz");
+  const ways = wayMeta.map((way, i) => ({
+    ...way,
+    title: block(blocks, `home.help_ways.${i}.title`, way.defaultTitle),
+    description: block(blocks, `home.help_ways.${i}.description`, way.defaultDescription),
+  }));
+
   return (
     <Section tone="white">
-      <Eyebrow>Csatlakozz</Eyebrow>
-      <h2 className="font-display text-3xl font-semibold text-ink-900 sm:text-4xl">Így segíthetsz</h2>
+      <Eyebrow>{eyebrow}</Eyebrow>
+      <h2 className="font-display text-3xl font-semibold text-ink-900 sm:text-4xl">{title}</h2>
       <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {ways.map((way) => (
           <div
-            key={way.title}
+            key={way.href}
             className="group flex flex-col gap-4 rounded-xl2 border border-ink-100 bg-cream-200 p-7 transition-all duration-300 hover:-translate-y-1.5 hover:border-marmalade-200 hover:shadow-lift"
           >
             <span className="flex h-12 w-12 items-center justify-center rounded-full bg-marmalade-100 text-marmalade-600 transition-colors group-hover:bg-marmalade-500 group-hover:text-white">

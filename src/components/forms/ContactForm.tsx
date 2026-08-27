@@ -6,7 +6,13 @@ import { FormError, FormSuccess } from "./FormStatus";
 import { Button } from "@/components/ui/Button";
 import { useFormSubmit } from "@/lib/useFormSubmit";
 
-export function ContactForm() {
+export function ContactForm({
+  successTitle = "Üzenetedet megkaptuk!",
+  successDescription = "Hamarosan válaszolunk a megadott e-mail címre.",
+}: {
+  successTitle?: string;
+  successDescription?: string;
+} = {}) {
   const { status, errorMessage, submit } = useFormSubmit("/api/kapcsolat");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -16,7 +22,7 @@ export function ContactForm() {
   }
 
   if (status === "success") {
-    return <FormSuccess title="Üzenetedet megkaptuk!" description="Hamarosan válaszolunk a megadott e-mail címre." />;
+    return <FormSuccess title={successTitle} description={successDescription} />;
   }
 
   return (

@@ -5,6 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import { siteConfig } from "@/data/site";
+import { getContentBlocks, block } from "@/data/content";
 
 const fraunces = Fraunces({
   subsets: ["latin", "latin-ext"],
@@ -20,41 +21,49 @@ const jakarta = Plus_Jakarta_Sans({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
-  title: {
-    default: `${siteConfig.name} — ${siteConfig.tagline}`,
-    template: `%s | ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  keywords: [
-    "macska örökbefogadás Székesfehérvár",
-    "cica örökbefogadás Székesfehérvár",
-    "macskamentés Székesfehérvár",
-    "cicamentés Fehérvár",
-    "gazdát kereső cica",
-    "ideiglenes befogadó cica",
-    "macska örökbefogadás",
-  ],
-  openGraph: {
-    type: "website",
-    locale: "hu_HU",
-    url: siteConfig.url,
-    siteName: siteConfig.name,
-    title: `${siteConfig.name} — ${siteConfig.tagline}`,
-    description: siteConfig.description,
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `${siteConfig.name} — ${siteConfig.tagline}`,
-    description: siteConfig.description,
-  },
-  alternates: {
-    canonical: "/",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const blocks = await getContentBlocks();
+  const tagline = block(blocks, "site.tagline", siteConfig.tagline);
+  const description = block(blocks, "site.description", siteConfig.description);
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return {
+    metadataBase: new URL(siteConfig.url),
+    title: {
+      default: `${siteConfig.name} — ${tagline}`,
+      template: `%s | ${siteConfig.name}`,
+    },
+    description,
+    keywords: [
+      "macska örökbefogadás Székesfehérvár",
+      "cica örökbefogadás Székesfehérvár",
+      "macskamentés Székesfehérvár",
+      "cicamentés Fehérvár",
+      "gazdát kereső cica",
+      "ideiglenes befogadó cica",
+      "macska örökbefogadás",
+    ],
+    openGraph: {
+      type: "website",
+      locale: "hu_HU",
+      url: siteConfig.url,
+      siteName: siteConfig.name,
+      title: `${siteConfig.name} — ${tagline}`,
+      description,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${siteConfig.name} — ${tagline}`,
+      description,
+    },
+    alternates: {
+      canonical: "/",
+    },
+  };
+}
+
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const blocks = await getContentBlocks();
+
   return (
     <html lang="hu" className={`${fraunces.variable} ${jakarta.variable}`}>
       <body className="flex min-h-screen flex-col bg-cream-200 font-sans text-ink-900 antialiased">
@@ -64,11 +73,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Ugrás a tartalomra
         </a>
-        <Header />
+        <Header operatingArea={block(blocks, "site.operating_area", siteConfig.operatingArea)} />
         <main id="fotartalom" className="flex-1 pb-16 lg:pb-0">
           {children}
         </main>
-        <Footer />
+        <Footer blocks={blocks} />
         <MobileBottomNav />
       </body>
     </html>

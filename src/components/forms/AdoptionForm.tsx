@@ -7,7 +7,17 @@ import { Button } from "@/components/ui/Button";
 import { Cat } from "@/data/types";
 import { useFormSubmit } from "@/lib/useFormSubmit";
 
-export function AdoptionForm({ cats, preselectedSlug }: { cats: Cat[]; preselectedSlug?: string }) {
+export function AdoptionForm({
+  cats,
+  preselectedSlug,
+  successTitle = "Megkaptuk a jelentkezésedet!",
+  successDescription = "Köszönjük, hogy örökbefogadáson gondolkodsz. Hamarosan e-mailben vagy telefonon jelentkezünk egy rövid beszélgetésre.",
+}: {
+  cats: Cat[];
+  preselectedSlug?: string;
+  successTitle?: string;
+  successDescription?: string;
+}) {
   const { status, errorMessage, submit } = useFormSubmit("/api/orokbefogadas-jelentkezes");
   const [hasOtherPets, setHasOtherPets] = useState(false);
   const [hasChildren, setHasChildren] = useState(false);
@@ -19,12 +29,7 @@ export function AdoptionForm({ cats, preselectedSlug }: { cats: Cat[]; preselect
   }
 
   if (status === "success") {
-    return (
-      <FormSuccess
-        title="Megkaptuk a jelentkezésedet!"
-        description="Köszönjük, hogy örökbefogadáson gondolkodsz. Hamarosan e-mailben vagy telefonon jelentkezünk egy rövid beszélgetésre."
-      />
-    );
+    return <FormSuccess title={successTitle} description={successDescription} />;
   }
 
   return (

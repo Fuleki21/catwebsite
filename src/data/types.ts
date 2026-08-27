@@ -55,6 +55,16 @@ export interface RescueStory {
 }
 
 export interface FaqItem {
+  id: string;
   question: string;
   answer: string;
+  position: number;
+  showInAdoptionPage: boolean;
+}
+
+export interface HelpBudgetItem {
+  id: string;
+  label: string;
+  note: string;
+  position: number;
 }

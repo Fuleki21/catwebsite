@@ -6,7 +6,13 @@ import { FormError, FormSuccess } from "./FormStatus";
 import { Button } from "@/components/ui/Button";
 import { useFormSubmit } from "@/lib/useFormSubmit";
 
-export function FosterForm() {
+export function FosterForm({
+  successTitle = "Köszönjük a jelentkezésedet!",
+  successDescription = "Nagyon sokat jelent, hogy otthont adnál egy rászoruló cicának. Hamarosan jelentkezünk a részletekkel.",
+}: {
+  successTitle?: string;
+  successDescription?: string;
+} = {}) {
   const { status, errorMessage, submit } = useFormSubmit("/api/ideiglenes-jelentkezes");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -16,12 +22,7 @@ export function FosterForm() {
   }
 
   if (status === "success") {
-    return (
-      <FormSuccess
-        title="Köszönjük a jelentkezésedet!"
-        description="Nagyon sokat jelent, hogy otthont adnál egy rászoruló cicának. Hamarosan jelentkezünk a részletekkel."
-      />
-    );
+    return <FormSuccess title={successTitle} description={successDescription} />;
   }
 
   return (

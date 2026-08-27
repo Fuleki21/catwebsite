@@ -2,9 +2,15 @@ import Link from "next/link";
 import { LogoutButton } from "@/components/admin/LogoutButton";
 import { getCats } from "@/data/cats";
 import { getStories } from "@/data/stories";
+import { getFaqItems, getHelpBudgetItems } from "@/data/content";
 
 export default async function AdminDashboardPage() {
-  const [cats, stories] = await Promise.all([getCats(), getStories()]);
+  const [cats, stories, faqItems, budgetItems] = await Promise.all([
+    getCats(),
+    getStories(),
+    getFaqItems(),
+    getHelpBudgetItems(),
+  ]);
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:py-16">
@@ -32,6 +38,33 @@ export default async function AdminDashboardPage() {
         >
           <h2 className="font-display text-xl font-semibold text-ink-900">Mentési történetek</h2>
           <p className="mt-2 text-sm text-ink-500">{stories.length} történet az adatbázisban</p>
+          <p className="mt-4 text-sm font-semibold text-marmalade-600">Kezelés →</p>
+        </Link>
+
+        <Link
+          href="/admin/tartalom"
+          className="focus-ring rounded-xl2 border border-ink-100 bg-white p-6 shadow-card transition-transform hover:-translate-y-1 hover:shadow-lift"
+        >
+          <h2 className="font-display text-xl font-semibold text-ink-900">Oldalszövegek</h2>
+          <p className="mt-2 text-sm text-ink-500">Fejlécek, bekezdések, alapadatok minden oldalon</p>
+          <p className="mt-4 text-sm font-semibold text-marmalade-600">Kezelés →</p>
+        </Link>
+
+        <Link
+          href="/admin/gyik-kerdesek"
+          className="focus-ring rounded-xl2 border border-ink-100 bg-white p-6 shadow-card transition-transform hover:-translate-y-1 hover:shadow-lift"
+        >
+          <h2 className="font-display text-xl font-semibold text-ink-900">GYIK kérdések</h2>
+          <p className="mt-2 text-sm text-ink-500">{faqItems.length} kérdés az adatbázisban</p>
+          <p className="mt-4 text-sm font-semibold text-marmalade-600">Kezelés →</p>
+        </Link>
+
+        <Link
+          href="/admin/koltsegtetelek"
+          className="focus-ring rounded-xl2 border border-ink-100 bg-white p-6 shadow-card transition-transform hover:-translate-y-1 hover:shadow-lift"
+        >
+          <h2 className="font-display text-xl font-semibold text-ink-900">„Mire megy a támogatás”</h2>
+          <p className="mt-2 text-sm text-ink-500">{budgetItems.length} tétel az adatbázisban</p>
           <p className="mt-4 text-sm font-semibold text-marmalade-600">Kezelés →</p>
         </Link>
       </div>

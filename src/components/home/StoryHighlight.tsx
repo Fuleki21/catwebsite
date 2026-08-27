@@ -2,16 +2,18 @@ import { Section, Eyebrow } from "@/components/ui/Container";
 import { LinkButton } from "@/components/ui/Button";
 import { ImageTile } from "@/components/ui/PhotoTile";
 import { getFeaturedStory } from "@/data/stories";
+import { getContentBlocks, block } from "@/data/content";
 
 const timeline = ["Előtte", "Mentés", "Gyógyulás", "Új otthon"];
 
 export async function StoryHighlight() {
-  const story = await getFeaturedStory();
+  const [story, blocks] = await Promise.all([getFeaturedStory(), getContentBlocks()]);
   if (!story) return null;
+  const eyebrow = block(blocks, "home.story_highlight.eyebrow", "Egy mentés története");
 
   return (
     <Section tone="sage">
-      <Eyebrow className="text-cream-100/80">Egy mentés története</Eyebrow>
+      <Eyebrow className="text-cream-100/80">{eyebrow}</Eyebrow>
       <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
         <div>
           <h2 className="font-display text-3xl font-semibold sm:text-4xl">{story.title}</h2>

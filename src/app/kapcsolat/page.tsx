@@ -4,7 +4,10 @@ import { Section } from "@/components/ui/Container";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { IconFacebook, IconInstagram, IconMail } from "@/components/ui/Icons";
 import { siteConfig } from "@/data/site";
+import { getContentBlocks, block } from "@/data/content";
 import { PlaceholderBadge } from "@/components/ui/Badge";
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Kapcsolat",
@@ -12,13 +15,23 @@ export const metadata: Metadata = {
   alternates: { canonical: "/kapcsolat" },
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const blocks = await getContentBlocks();
+  const email = block(blocks, "site.email", siteConfig.email);
+  const facebookUrl = block(blocks, "site.facebook_url", siteConfig.facebookUrl);
+  const instagramUrl = block(blocks, "site.instagram_url", siteConfig.instagramUrl);
+  const operatingArea = block(blocks, "site.operating_area", siteConfig.operatingArea);
+
   return (
     <>
       <PageHeader
-        eyebrow="Kapcsolat"
-        title="Írj nekünk bátran"
-        description="Kérdésed van egy cicáról, az örökbefogadásról vagy arról, hogyan tudsz segíteni? Vedd fel velünk a kapcsolatot."
+        eyebrow={block(blocks, "kapcsolat.header.eyebrow", "Kapcsolat")}
+        title={block(blocks, "kapcsolat.header.title", "Írj nekünk bátran")}
+        description={block(
+          blocks,
+          "kapcsolat.header.description",
+          "Kérdésed van egy cicáról, az örökbefogadásról vagy arról, hogyan tudsz segíteni? Vedd fel velünk a kapcsolatot."
+        )}
       />
 
       <Section tone="white" className="pt-0">
@@ -32,8 +45,8 @@ export default function ContactPage() {
                     <IconMail className="h-4 w-4" />
                   </span>
                   <div className="flex items-center gap-2">
-                    <a href={`mailto:${siteConfig.email}`} className="focus-ring text-sm font-semibold text-ink-800 hover:text-marmalade-600">
-                      {siteConfig.email}
+                    <a href={`mailto:${email}`} className="focus-ring text-sm font-semibold text-ink-800 hover:text-marmalade-600">
+                      {email}
                     </a>
                     <PlaceholderBadge />
                   </div>
@@ -42,7 +55,7 @@ export default function ContactPage() {
                   <span className="flex h-10 w-10 items-center justify-center rounded-full bg-marmalade-100 text-marmalade-600">
                     <IconFacebook className="h-4 w-4" />
                   </span>
-                  <a href={siteConfig.facebookUrl} target="_blank" rel="noreferrer" className="focus-ring text-sm font-semibold text-ink-800 hover:text-marmalade-600">
+                  <a href={facebookUrl} target="_blank" rel="noreferrer" className="focus-ring text-sm font-semibold text-ink-800 hover:text-marmalade-600">
                     Facebook oldalunk
                   </a>
                 </li>
@@ -50,21 +63,27 @@ export default function ContactPage() {
                   <span className="flex h-10 w-10 items-center justify-center rounded-full bg-marmalade-100 text-marmalade-600">
                     <IconInstagram className="h-4 w-4" />
                   </span>
-                  <a href={siteConfig.instagramUrl} target="_blank" rel="noreferrer" className="focus-ring text-sm font-semibold text-ink-800 hover:text-marmalade-600">
+                  <a href={instagramUrl} target="_blank" rel="noreferrer" className="focus-ring text-sm font-semibold text-ink-800 hover:text-marmalade-600">
                     Instagram oldalunk
                   </a>
                 </li>
               </ul>
-              <p className="mt-5 text-xs text-ink-400">Működési terület: {siteConfig.operatingArea}</p>
+              <p className="mt-5 text-xs text-ink-400">Működési terület: {operatingArea}</p>
             </div>
             <p className="text-sm leading-relaxed text-ink-500">
-              Sürgős, bajba jutott cicával kapcsolatos bejelentés esetén kérjük, jelezd ezt üzeneted elején — így
-              soron kívül kezeljük.
+              {block(
+                blocks,
+                "kapcsolat.urgent_note",
+                "Sürgős, bajba jutott cicával kapcsolatos bejelentés esetén kérjük, jelezd ezt üzeneted elején — így soron kívül kezeljük."
+              )}
             </p>
           </div>
 
           <div className="rounded-xl2 border border-ink-100 bg-white p-6 shadow-card sm:p-8">
-            <ContactForm />
+            <ContactForm
+              successTitle={block(blocks, "forms.contact.success_title", "Üzenetedet megkaptuk!")}
+              successDescription={block(blocks, "forms.contact.success_description", "Hamarosan válaszolunk a megadott e-mail címre.")}
+            />
           </div>
         </div>
       </Section>

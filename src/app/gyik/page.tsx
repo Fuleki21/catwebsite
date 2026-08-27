@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Container";
 import { Accordion } from "@/components/ui/Accordion";
-import { faqItems } from "@/data/site";
+import { getFaqItems, getContentBlocks, block } from "@/data/content";
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "GYIK",
@@ -10,7 +12,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/gyik" },
 };
 
-export default function FaqPage() {
+export default async function FaqPage() {
+  const [faqItems, blocks] = await Promise.all([getFaqItems(), getContentBlocks()]);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -24,7 +28,11 @@ export default function FaqPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <PageHeader eyebrow="GYIK" title="Gyakori kérdések" description="Nem találod a válaszod? Írj nekünk a Kapcsolat oldalon." />
+      <PageHeader
+        eyebrow={block(blocks, "gyik.header.eyebrow", "GYIK")}
+        title={block(blocks, "gyik.header.title", "Gyakori kérdések")}
+        description={block(blocks, "gyik.header.description", "Nem találod a válaszod? Írj nekünk a Kapcsolat oldalon.")}
+      />
       <Section tone="white" className="pt-0">
         <div className="mx-auto max-w-3xl">
           <Accordion items={faqItems} />

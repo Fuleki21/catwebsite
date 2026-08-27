@@ -1,9 +1,16 @@
 import Link from "next/link";
 import { siteConfig } from "@/data/site";
+import { block } from "@/data/content";
 import { IconFacebook, IconInstagram, IconMail, IconPaw } from "@/components/ui/Icons";
 import { primaryNavLinks, joinDropdownLinks, secondaryNavLinks } from "./nav-links";
 
-export function Footer() {
+export function Footer({ blocks }: { blocks: Record<string, string> }) {
+  const description = block(blocks, "site.description", siteConfig.description);
+  const facebookUrl = block(blocks, "site.facebook_url", siteConfig.facebookUrl);
+  const instagramUrl = block(blocks, "site.instagram_url", siteConfig.instagramUrl);
+  const email = block(blocks, "site.email", siteConfig.email);
+  const legalStatusNote = block(blocks, "site.legal_status_note", siteConfig.legalStatusNote);
+
   return (
     <footer className="border-t border-ink-800 bg-ink-900 pb-28 pt-16 text-cream-100 lg:pb-16">
       <div className="container-page">
@@ -15,10 +22,10 @@ export function Footer() {
               </span>
               <span className="font-display text-lg font-semibold">Cat TNR Fehérvár</span>
             </Link>
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-cream-100/70">{siteConfig.description}</p>
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-cream-100/70">{description}</p>
             <div className="mt-5 flex gap-3">
               <a
-                href={siteConfig.facebookUrl}
+                href={facebookUrl}
                 target="_blank"
                 rel="noreferrer"
                 className="focus-ring flex h-10 w-10 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-marmalade-500"
@@ -27,7 +34,7 @@ export function Footer() {
                 <IconFacebook className="h-4 w-4" />
               </a>
               <a
-                href={siteConfig.instagramUrl}
+                href={instagramUrl}
                 target="_blank"
                 rel="noreferrer"
                 className="focus-ring flex h-10 w-10 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-marmalade-500"
@@ -69,8 +76,8 @@ export function Footer() {
             <ul className="space-y-2.5 text-sm">
               <li className="flex items-center gap-2 text-cream-100/80">
                 <IconMail className="h-4 w-4 shrink-0" />
-                <a href={`mailto:${siteConfig.email}`} className="focus-ring hover:text-marmalade-300">
-                  {siteConfig.email}
+                <a href={`mailto:${email}`} className="focus-ring hover:text-marmalade-300">
+                  {email}
                 </a>
               </li>
               {secondaryNavLinks.map((link) => (
@@ -86,7 +93,7 @@ export function Footer() {
 
         <div className="mt-14 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-cream-100/50 sm:flex-row sm:items-center sm:justify-between">
           <p>&copy; {new Date().getFullYear()} Cat TNR Fehérvár. Minden jog fenntartva.</p>
-          <p className="max-w-xl">{siteConfig.legalStatusNote}</p>
+          <p className="max-w-xl">{legalStatusNote}</p>
         </div>
       </div>
     </footer>

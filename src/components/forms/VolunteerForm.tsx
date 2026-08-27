@@ -18,7 +18,13 @@ const helpTypes = [
   "Egyéb háttérmunka",
 ];
 
-export function VolunteerForm() {
+export function VolunteerForm({
+  successTitle = "Köszönjük a jelentkezésedet!",
+  successDescription = "Örülünk, hogy csatlakoznál hozzánk. Hamarosan felvesszük veled a kapcsolatot a részletekről.",
+}: {
+  successTitle?: string;
+  successDescription?: string;
+} = {}) {
   const { status, errorMessage, submit } = useFormSubmit("/api/onkentes-jelentkezes");
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
 
@@ -33,12 +39,7 @@ export function VolunteerForm() {
   }
 
   if (status === "success") {
-    return (
-      <FormSuccess
-        title="Köszönjük a jelentkezésedet!"
-        description="Örülünk, hogy csatlakoznál hozzánk. Hamarosan felvesszük veled a kapcsolatot a részletekről."
-      />
-    );
+    return <FormSuccess title={successTitle} description={successDescription} />;
   }
 
   return (

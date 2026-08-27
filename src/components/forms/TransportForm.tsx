@@ -6,7 +6,13 @@ import { FormError, FormSuccess } from "./FormStatus";
 import { Button } from "@/components/ui/Button";
 import { useFormSubmit } from "@/lib/useFormSubmit";
 
-export function TransportForm() {
+export function TransportForm({
+  successTitle = "Köszönjük a jelentkezésedet!",
+  successDescription = "Amint szállítási segítségre lesz szükség a közeledben, keresünk.",
+}: {
+  successTitle?: string;
+  successDescription?: string;
+} = {}) {
   const { status, errorMessage, submit } = useFormSubmit("/api/szallito-jelentkezes");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -16,12 +22,7 @@ export function TransportForm() {
   }
 
   if (status === "success") {
-    return (
-      <FormSuccess
-        title="Köszönjük a jelentkezésedet!"
-        description="Amint szállítási segítségre lesz szükség a közeledben, keresünk."
-      />
-    );
+    return <FormSuccess title={successTitle} description={successDescription} />;
   }
 
   return (

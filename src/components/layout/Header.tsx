@@ -7,9 +7,8 @@ import { IconChevronDown, IconMenu, IconPaw, IconX } from "@/components/ui/Icons
 import { LinkButton } from "@/components/ui/Button";
 import { primaryNavLinks, joinDropdownLinks, secondaryNavLinks } from "./nav-links";
 import { cn } from "@/lib/utils";
-import { siteConfig } from "@/data/site";
 
-export function Header() {
+export function Header({ operatingArea }: { operatingArea: string }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [joinOpen, setJoinOpen] = useState(false);
   const pathname = usePathname();
@@ -117,7 +116,7 @@ export function Header() {
                 Örökbefogadok
               </LinkButton>
             </div>
-            <p className="mt-3 text-xs text-ink-300">{siteConfig.operatingArea}</p>
+            <p className="mt-3 text-xs text-ink-300">{operatingArea}</p>
           </nav>
         </div>
       </div>

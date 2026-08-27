@@ -3,6 +3,9 @@ import { PageHeader } from "@/components/ui/PageHeader";
 import { Section, Eyebrow } from "@/components/ui/Container";
 import { FosterForm } from "@/components/forms/FosterForm";
 import { IconCheck } from "@/components/ui/Icons";
+import { getContentBlocks, block } from "@/data/content";
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Ideiglenes befogadó leszek",
@@ -10,7 +13,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/ideiglenes-befogado" },
 };
 
-const faqs = [
+const faqDefaults = [
   {
     question: "Mi az ideiglenes befogadás?",
     answer:
@@ -38,19 +41,29 @@ const faqs = [
   },
 ];
 
-export default function FosterPage() {
+export default async function FosterPage() {
+  const blocks = await getContentBlocks();
+  const faqs = faqDefaults.map((item, i) => ({
+    question: block(blocks, `ideiglenes.faqs.${i}.question`, item.question),
+    answer: block(blocks, `ideiglenes.faqs.${i}.answer`, item.answer),
+  }));
+
   return (
     <>
       <PageHeader
-        eyebrow="Csatlakozz"
-        title="Adj otthont egy cicának — egy időre."
-        description="Az ideiglenes befogadás híd a mentés és az örökbefogadás között. Nem kell örökre vállalnod — csak addig, amíg szükség van rád."
+        eyebrow={block(blocks, "ideiglenes.header.eyebrow", "Csatlakozz")}
+        title={block(blocks, "ideiglenes.header.title", "Adj otthont egy cicának — egy időre.")}
+        description={block(
+          blocks,
+          "ideiglenes.header.description",
+          "Az ideiglenes befogadás híd a mentés és az örökbefogadás között. Nem kell örökre vállalnod — csak addig, amíg szükség van rád."
+        )}
       />
 
       <Section tone="white" className="pt-0">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          {faqs.map((item) => (
-            <div key={item.question} className="rounded-xl2 border border-ink-100 bg-cream-200 p-6">
+          {faqs.map((item, i) => (
+            <div key={i} className="rounded-xl2 border border-ink-100 bg-cream-200 p-6">
               <h3 className="flex items-start gap-2 font-display text-lg font-semibold text-ink-900">
                 <IconCheck className="mt-1 h-4 w-4 shrink-0 text-sage-600" />
                 {item.question}
@@ -62,10 +75,19 @@ export default function FosterPage() {
       </Section>
 
       <Section tone="cream" id="jelentkezes">
-        <Eyebrow>Jelentkezés</Eyebrow>
-        <h2 className="font-display text-3xl font-semibold text-ink-900 sm:text-4xl">Befogadó leszek</h2>
+        <Eyebrow>{block(blocks, "ideiglenes.form.eyebrow", "Jelentkezés")}</Eyebrow>
+        <h2 className="font-display text-3xl font-semibold text-ink-900 sm:text-4xl">
+          {block(blocks, "ideiglenes.form.title", "Befogadó leszek")}
+        </h2>
         <div className="mt-8 max-w-2xl rounded-xl2 border border-ink-100 bg-white p-6 shadow-card sm:p-8">
-          <FosterForm />
+          <FosterForm
+            successTitle={block(blocks, "forms.foster.success_title", "Köszönjük a jelentkezésedet!")}
+            successDescription={block(
+              blocks,
+              "forms.foster.success_description",
+              "Nagyon sokat jelent, hogy otthont adnál egy rászoruló cicának. Hamarosan jelentkezünk a részletekkel."
+            )}
+          />
         </div>
       </Section>
     </>
