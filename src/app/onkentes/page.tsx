@@ -25,7 +25,7 @@ const opportunityMeta = [
   { icon: IconPaw, defaultTitle: "Fotózás", defaultDescription: "Készíts minőségi, szerethető fotókat a mentett cicákról." },
   { icon: IconUsers, defaultTitle: "Videózás", defaultDescription: "Rövid videók, amik megmutatják egy-egy cica személyiségét." },
   { icon: IconHeart, defaultTitle: "Gazdikeresés", defaultDescription: "Segíts megtalálni a tökéletes családot egy-egy cicához." },
-  { icon: IconUsers, defaultTitle: "Social media", defaultDescription: "Facebook és Instagram tartalom tervezése, kezelése." },
+  { icon: IconUsers, defaultTitle: "Social media", defaultDescription: "Facebook tartalom tervezése, kezelése." },
   { icon: IconCar, defaultTitle: "Cégek megkeresése", defaultDescription: "Támogatói kapcsolatok építése helyi vállalkozásokkal." },
   { icon: IconHeart, defaultTitle: "Adománygyűjtés", defaultDescription: "Kampányok és gyűjtések szervezése, lebonyolítása." },
   { icon: IconMail, defaultTitle: "Kapcsolattartás", defaultDescription: "Jelentkezők és érdeklődők megkeresésének koordinálása." },

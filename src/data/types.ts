@@ -92,7 +92,6 @@ export interface Sponsor {
   referralButtonText: string;
   websiteUrl: string;
   facebookUrl: string;
-  instagramUrl: string;
   visible: boolean;
   position: number;
 }

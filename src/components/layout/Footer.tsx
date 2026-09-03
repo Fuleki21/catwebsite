@@ -1,14 +1,12 @@
 import Link from "next/link";
 import { siteConfig } from "@/data/site";
 import { block } from "@/data/content";
-import { IconFacebook, IconInstagram, IconMail, IconPaw } from "@/components/ui/Icons";
+import { IconFacebook, IconPaw } from "@/components/ui/Icons";
 import { primaryNavLinks, joinDropdownLinks, secondaryNavLinks } from "./nav-links";
 
 export function Footer({ blocks }: { blocks: Record<string, string> }) {
   const description = block(blocks, "site.description", siteConfig.description);
   const facebookUrl = block(blocks, "site.facebook_url", siteConfig.facebookUrl);
-  const instagramUrl = block(blocks, "site.instagram_url", siteConfig.instagramUrl);
-  const email = block(blocks, "site.email", siteConfig.email);
   const legalStatusNote = block(blocks, "site.legal_status_note", siteConfig.legalStatusNote);
 
   return (
@@ -32,15 +30,6 @@ export function Footer({ blocks }: { blocks: Record<string, string> }) {
                 aria-label="Facebook"
               >
                 <IconFacebook className="h-4 w-4" />
-              </a>
-              <a
-                href={instagramUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="focus-ring flex h-10 w-10 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-marmalade-500"
-                aria-label="Instagram"
-              >
-                <IconInstagram className="h-4 w-4" />
               </a>
             </div>
           </div>
@@ -74,10 +63,15 @@ export function Footer({ blocks }: { blocks: Record<string, string> }) {
           <div>
             <p className="mb-4 text-xs font-bold uppercase tracking-widest text-cream-100/50">Elérhetőség</p>
             <ul className="space-y-2.5 text-sm">
-              <li className="flex items-center gap-2 text-cream-100/80">
-                <IconMail className="h-4 w-4 shrink-0" />
-                <a href={`mailto:${email}`} className="focus-ring hover:text-marmalade-300">
-                  {email}
+              <li>
+                <a
+                  href={facebookUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="focus-ring flex items-center gap-2 text-cream-100/80 transition-colors hover:text-marmalade-300"
+                >
+                  <IconFacebook className="h-4 w-4 shrink-0" />
+                  Facebook oldalunk
                 </a>
               </li>
               {secondaryNavLinks.map((link) => (

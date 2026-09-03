@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Container";
 import { LinkButton } from "@/components/ui/Button";
-import { PlaceholderBadge } from "@/components/ui/Badge";
 import { siteConfig } from "@/data/site";
 import { getContentBlocks, block, blockList, getVisibleHelpCategories } from "@/data/content";
 
@@ -175,11 +174,10 @@ export default async function SupportPage() {
                 "Ha tárgyi adománnyal segítenél és személyesen adnád át: írj nekünk privát üzenetet a Facebook oldalunkon, és egyeztetünk! 💬🐱"
               )}
             </p>
-            <div className="mt-5 flex items-center gap-2">
+            <div className="mt-5">
               <LinkButton href={facebookUrl} target="_blank" rel="noreferrer" variant="primary">
                 {block(blocks, "segits.dropoff.personal_button", "Írj nekünk Facebookon")}
               </LinkButton>
-              <PlaceholderBadge />
             </div>
           </div>
 

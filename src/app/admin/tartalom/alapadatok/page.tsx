@@ -6,10 +6,12 @@ import { saveContentBlocks } from "../actions";
 const fields: ContentField[] = [
   { key: "site.tagline", label: "Mottó (rövid szlogen)" },
   { key: "site.description", label: "Rövid leírás a szervezetről", multiline: true },
-  { key: "site.email", label: "E-mail cím" },
-  { key: "site.phone", label: "Telefonszám" },
-  { key: "site.facebook_url", label: "Facebook link" },
-  { key: "site.instagram_url", label: "Instagram link" },
+  { key: "site.phone", label: "Telefonszám", hint: "Jelenleg nincs publikusan megjelenítve az oldalon." },
+  {
+    key: "site.facebook_url",
+    label: "Facebook link",
+    hint: "Ez az egyetlen publikus kapcsolattartási lehetőség — ez jelenik meg a lábléc, a Kapcsolat és a Segíts oldalon is.",
+  },
   { key: "site.operating_area", label: "Működési terület" },
   { key: "site.legal_status_note", label: "Szervezeti forma megjegyzés", multiline: true },
 ];

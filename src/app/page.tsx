@@ -18,10 +18,7 @@ export default async function HomePage() {
     url: siteConfig.url,
     description: block(blocks, "site.description", siteConfig.description),
     areaServed: block(blocks, "site.operating_area", siteConfig.operatingArea),
-    sameAs: [
-      block(blocks, "site.facebook_url", siteConfig.facebookUrl),
-      block(blocks, "site.instagram_url", siteConfig.instagramUrl),
-    ],
+    sameAs: [block(blocks, "site.facebook_url", siteConfig.facebookUrl)],
   };
 
   return (

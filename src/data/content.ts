@@ -182,7 +182,6 @@ type SponsorRow = {
   referral_button_text: string;
   website_url: string;
   facebook_url: string;
-  instagram_url: string;
   visible: boolean;
   position: number;
 };
@@ -200,7 +199,6 @@ function mapSponsorRow(row: SponsorRow): Sponsor {
     referralButtonText: row.referral_button_text,
     websiteUrl: row.website_url,
     facebookUrl: row.facebook_url,
-    instagramUrl: row.instagram_url,
     visible: row.visible,
     position: row.position,
   };

@@ -47,7 +47,6 @@ async function buildRow(formData: FormData) {
     referral_button_text: String(formData.get("referralButtonText") ?? "").trim(),
     website_url: String(formData.get("websiteUrl") ?? "").trim(),
     facebook_url: String(formData.get("facebookUrl") ?? "").trim(),
-    instagram_url: String(formData.get("instagramUrl") ?? "").trim(),
     position: Number(formData.get("position") ?? 0) || 0,
     visible: formData.get("visible") === "on",
   };

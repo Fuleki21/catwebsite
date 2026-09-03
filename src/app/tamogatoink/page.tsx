@@ -85,16 +85,6 @@ function SponsorCard({ sponsor }: { sponsor: Sponsor }) {
             Facebook
           </a>
         )}
-        {sponsor.instagramUrl && (
-          <a
-            href={sponsor.instagramUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="focus-ring text-sm font-semibold text-ink-500 hover:text-marmalade-600"
-          >
-            Instagram
-          </a>
-        )}
       </div>
     </div>
   );

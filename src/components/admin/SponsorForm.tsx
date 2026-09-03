@@ -71,15 +71,12 @@ export function SponsorForm({
         </Field>
       </div>
 
-      <div className="grid gap-5 sm:grid-cols-3">
+      <div className="grid gap-5 sm:grid-cols-2">
         <Field label="Weboldal URL" htmlFor="websiteUrl">
           <TextInput id="websiteUrl" name="websiteUrl" defaultValue={initial?.websiteUrl} placeholder="https://" />
         </Field>
         <Field label="Facebook URL" htmlFor="facebookUrl">
           <TextInput id="facebookUrl" name="facebookUrl" defaultValue={initial?.facebookUrl} placeholder="https://facebook.com/…" />
-        </Field>
-        <Field label="Instagram URL" htmlFor="instagramUrl">
-          <TextInput id="instagramUrl" name="instagramUrl" defaultValue={initial?.instagramUrl} placeholder="https://instagram.com/…" />
         </Field>
       </div>
 
