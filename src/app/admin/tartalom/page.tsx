@@ -13,6 +13,7 @@ const sections = [
   { href: "/admin/tartalom/gyik", label: "GYIK oldal fejléce", desc: "A kérdés-válaszok a „GYIK-kérdések” menüpontban vannak" },
   { href: "/admin/tartalom/orokbefogadas", label: "Örökbefogadás menete", desc: "Fejléc, lépések, jelentkezési szöveg" },
   { href: "/admin/tartalom/urlapok", label: "Űrlapok köszönő üzenetei", desc: "Mind az 5 jelentkezési űrlap" },
+  { href: "/admin/tartalom/tamogatoink", label: "Támogatóink oldal", desc: "Fejléc, bevezető, „legyél te is támogatónk” szekció" },
 ];
 
 export default function AdminContentIndexPage() {

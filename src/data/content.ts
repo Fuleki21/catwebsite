@@ -1,6 +1,6 @@
 import { cache } from "react";
 import { supabase } from "@/lib/supabase";
-import { FaqItem, HelpBudgetItem, HelpCategory } from "./types";
+import { FaqItem, HelpBudgetItem, HelpCategory, Sponsor } from "./types";
 
 // ============ CONTENT BLOCKS (kulcs -> szöveg, oldalankénti fix szövegek) ============
 
@@ -166,4 +166,67 @@ export async function getHelpCategoryById(id: string): Promise<HelpCategory | un
     return undefined;
   }
   return data ? mapHelpCategoryRow(data) : undefined;
+}
+
+// ============ SPONSORS (Támogatóink oldal) ============
+
+type SponsorRow = {
+  id: string;
+  name: string;
+  logo_url: string;
+  image_url: string;
+  short_bio: string;
+  support_type: string;
+  description: string;
+  referral_url: string;
+  referral_button_text: string;
+  website_url: string;
+  facebook_url: string;
+  instagram_url: string;
+  visible: boolean;
+  position: number;
+};
+
+function mapSponsorRow(row: SponsorRow): Sponsor {
+  return {
+    id: row.id,
+    name: row.name,
+    logoUrl: row.logo_url,
+    imageUrl: row.image_url,
+    shortBio: row.short_bio,
+    supportType: row.support_type,
+    description: row.description,
+    referralUrl: row.referral_url,
+    referralButtonText: row.referral_button_text,
+    websiteUrl: row.website_url,
+    facebookUrl: row.facebook_url,
+    instagramUrl: row.instagram_url,
+    visible: row.visible,
+    position: row.position,
+  };
+}
+
+/** Admin nézet: minden támogató (rejtett is), sorrend szerint. */
+export async function getSponsors(): Promise<Sponsor[]> {
+  const { data, error } = await supabase.from("sponsors").select("*").order("position", { ascending: true });
+  if (error) {
+    console.error("[getSponsors] Supabase hiba:", error.message);
+    return [];
+  }
+  return (data ?? []).map(mapSponsorRow);
+}
+
+/** Publikus nézet: csak a látható támogatók, sorrend szerint. */
+export async function getVisibleSponsors(): Promise<Sponsor[]> {
+  const items = await getSponsors();
+  return items.filter((item) => item.visible);
+}
+
+export async function getSponsorById(id: string): Promise<Sponsor | undefined> {
+  const { data, error } = await supabase.from("sponsors").select("*").eq("id", id).maybeSingle();
+  if (error) {
+    console.error("[getSponsorById] Supabase hiba:", error.message);
+    return undefined;
+  }
+  return data ? mapSponsorRow(data) : undefined;
 }

@@ -13,6 +13,7 @@ export const joinDropdownLinks = [
 ];
 
 export const secondaryNavLinks = [
+  { href: "/tamogatoink", label: "Támogatóink" },
   { href: "/kapcsolat", label: "Kapcsolat" },
   { href: "/gyik", label: "GYIK" },
 ];

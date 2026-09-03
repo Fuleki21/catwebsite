@@ -79,3 +79,20 @@ export interface HelpCategory {
   visible: boolean;
   position: number;
 }
+
+export interface Sponsor {
+  id: string;
+  name: string;
+  logoUrl: string;
+  imageUrl: string;
+  shortBio: string;
+  supportType: string;
+  description: string;
+  referralUrl: string;
+  referralButtonText: string;
+  websiteUrl: string;
+  facebookUrl: string;
+  instagramUrl: string;
+  visible: boolean;
+  position: number;
+}
