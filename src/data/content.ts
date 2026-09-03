@@ -1,6 +1,6 @@
 import { cache } from "react";
 import { supabase } from "@/lib/supabase";
-import { FaqItem, HelpBudgetItem } from "./types";
+import { FaqItem, HelpBudgetItem, HelpCategory } from "./types";
 
 // ============ CONTENT BLOCKS (kulcs -> szöveg, oldalankénti fix szövegek) ============
 
@@ -26,6 +26,20 @@ export const getContentBlocks = cache(async (): Promise<Record<string, string>> 
 export function block(blocks: Record<string, string>, key: string, fallback: string): string {
   const value = blocks[key];
   return value && value.trim().length > 0 ? value : fallback;
+}
+
+/**
+ * Segédfüggvény: egy content_blocks érték soronkénti listaként való
+ * kiolvasásához (pl. márkanevek, tételek) — admin oldalon egy sima
+ * TextArea-ban szerkeszthető, soronként egy elem, kód módosítása nélkül.
+ */
+export function blockList(blocks: Record<string, string>, key: string, fallback: string[]): string[] {
+  const raw = blocks[key];
+  if (!raw || raw.trim().length === 0) return fallback;
+  return raw
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
 }
 
 // ============ FAQ ITEMS ============
@@ -101,4 +115,55 @@ export async function getHelpBudgetItemById(id: string): Promise<HelpBudgetItem 
     return undefined;
   }
   return data ? mapHelpBudgetRow(data) : undefined;
+}
+
+// ============ HELP CATEGORIES (a Segíts oldal bővíthető kártyasora) ============
+
+type HelpCategoryRow = {
+  id: string;
+  title: string;
+  icon: string;
+  short_description: string;
+  button_text: string;
+  button_url: string;
+  visible: boolean;
+  position: number;
+};
+
+function mapHelpCategoryRow(row: HelpCategoryRow): HelpCategory {
+  return {
+    id: row.id,
+    title: row.title,
+    icon: row.icon,
+    shortDescription: row.short_description,
+    buttonText: row.button_text,
+    buttonUrl: row.button_url,
+    visible: row.visible,
+    position: row.position,
+  };
+}
+
+/** Admin nézet: minden kategória (rejtett is), sorrend szerint. */
+export async function getHelpCategories(): Promise<HelpCategory[]> {
+  const { data, error } = await supabase.from("help_categories").select("*").order("position", { ascending: true });
+  if (error) {
+    console.error("[getHelpCategories] Supabase hiba:", error.message);
+    return [];
+  }
+  return (data ?? []).map(mapHelpCategoryRow);
+}
+
+/** Publikus nézet: csak a látható kategóriák, sorrend szerint. */
+export async function getVisibleHelpCategories(): Promise<HelpCategory[]> {
+  const items = await getHelpCategories();
+  return items.filter((item) => item.visible);
+}
+
+export async function getHelpCategoryById(id: string): Promise<HelpCategory | undefined> {
+  const { data, error } = await supabase.from("help_categories").select("*").eq("id", id).maybeSingle();
+  if (error) {
+    console.error("[getHelpCategoryById] Supabase hiba:", error.message);
+    return undefined;
+  }
+  return data ? mapHelpCategoryRow(data) : undefined;
 }

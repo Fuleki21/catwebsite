@@ -68,3 +68,14 @@ export interface HelpBudgetItem {
   note: string;
   position: number;
 }
+
+export interface HelpCategory {
+  id: string;
+  title: string;
+  icon: string;
+  shortDescription: string;
+  buttonText: string;
+  buttonUrl: string;
+  visible: boolean;
+  position: number;
+}

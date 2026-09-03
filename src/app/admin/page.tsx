@@ -2,14 +2,15 @@ import Link from "next/link";
 import { LogoutButton } from "@/components/admin/LogoutButton";
 import { getCats } from "@/data/cats";
 import { getStories } from "@/data/stories";
-import { getFaqItems, getHelpBudgetItems } from "@/data/content";
+import { getFaqItems, getHelpBudgetItems, getHelpCategories } from "@/data/content";
 
 export default async function AdminDashboardPage() {
-  const [cats, stories, faqItems, budgetItems] = await Promise.all([
+  const [cats, stories, faqItems, budgetItems, helpCategories] = await Promise.all([
     getCats(),
     getStories(),
     getFaqItems(),
     getHelpBudgetItems(),
+    getHelpCategories(),
   ]);
 
   return (
@@ -64,7 +65,16 @@ export default async function AdminDashboardPage() {
           className="focus-ring rounded-xl2 border border-ink-100 bg-white p-6 shadow-card transition-transform hover:-translate-y-1 hover:shadow-lift"
         >
           <h2 className="font-display text-xl font-semibold text-ink-900">„Mire megy a támogatás”</h2>
-          <p className="mt-2 text-sm text-ink-500">{budgetItems.length} tétel az adatbázisban</p>
+          <p className="mt-2 text-sm text-ink-500">{budgetItems.length} tétel — jelenleg nincs hol megjelenítve</p>
+          <p className="mt-4 text-sm font-semibold text-marmalade-600">Kezelés →</p>
+        </Link>
+
+        <Link
+          href="/admin/segitsegek"
+          className="focus-ring rounded-xl2 border border-ink-100 bg-white p-6 shadow-card transition-transform hover:-translate-y-1 hover:shadow-lift"
+        >
+          <h2 className="font-display text-xl font-semibold text-ink-900">További segítési lehetőségek</h2>
+          <p className="mt-2 text-sm text-ink-500">{helpCategories.length} kártya a Segíts oldalon</p>
           <p className="mt-4 text-sm font-semibold text-marmalade-600">Kezelés →</p>
         </Link>
       </div>
